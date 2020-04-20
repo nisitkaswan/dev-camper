@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const morgan = require('morgan');
 const fileupload = require('express-fileupload');
 const path = require('path');
+const cookieParser = require('cookie-parser');
 
 dotenv.config({ path: './config/config.env' });
 
@@ -30,6 +31,8 @@ const bootcamps = require('./routes/bootcamps');
 
 const courses = require('./routes/courses');
 
+const auth = require('./routes/auth');
+
 // set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -42,11 +45,15 @@ if (process.env.NODE_ENV === 'development')
 // File Upload
 app.use(fileupload());
 
+app.use(cookieParser());
+
 // Mount Routers
 
 app.use('/api/v1/bootcamps', bootcamps);
 
 app.use('/api/v1/courses', courses);
+
+app.use('/api/v1/auth',auth)
 
 app.use(errorHandler);
 

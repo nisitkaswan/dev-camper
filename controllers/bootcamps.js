@@ -40,7 +40,10 @@ exports.getBootcamp = asyncHandler(async (req, res, next) => {
 */
 exports.createBootcamp = asyncHandler(async (req, res, next) => {
 
-    const bootcamp = await Bootcamp.create(req.body);
+    const data = req.body;
+    data.user = req.user;
+
+    const bootcamp = await Bootcamp.create(data);
     res.status(201).send({
         success: true,
         data: bootcamp
